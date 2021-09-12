@@ -6,14 +6,14 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
-const helmet = require('helmet');
-const csrf = require('csurf');
+// const helmet = require('helmet');
+// const csrf = require('csurf');
 
 const routes = require('./routes');
 const {
 	middlewareGlobal,
-	checkCsrfError,
-	csrfMiddleware,
+/* 	checkCsrfError,
+	csrfMiddleware, */
 } = require('./src/middlewares/middleware');
 
 const app = express();
@@ -26,7 +26,7 @@ mongoose
 	})
 	.catch(e => console.log(e));
 
-app.use(helmet());
+// app.use(helmet());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -48,11 +48,12 @@ app.use(flash());
 app.set('views', path.resolve(__dirname, 'src', 'views'));
 app.set('view engine', 'ejs');
 
-app.use(csrf());
+// app.use(csrf());
+
 // Nossos próprios middlewares
 app.use(middlewareGlobal);
-app.use(checkCsrfError);
-app.use(csrfMiddleware);
+// app.use(checkCsrfError);
+// app.use(csrfMiddleware);
 app.use(routes);
 
 app.on('Pronto', () => {
